@@ -1,13 +1,23 @@
 <?php
-$host = 'localhost';
-$user = 'root';
-$pass = '';
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$host = 'gateway01.us-west-2.prod.aws.tidbcloud.com'; // Replace with your actual TiDB Cloud host endpoint
+$user = 'your_tidb_username';                     // Replace with your TiDB username
+$pass = 'your_tidb_password';                     // Replace with your TiDB password
 $db   = 'gas_agency';
+$port = 4000;
 
-$conn = new mysqli($host, $user, $pass, $db);
+// Initialize mysqli for secure cloud connection
+$conn = mysqli_init();
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Uncomment the line below if your cloud cluster requires SSL certification
+// mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
+
+if (!mysqli_real_connect($conn, $host, $user, $pass, $db, $port)) {
+    die("Connection failed: " . mysqli_connect_error());
 }
 
 // Global Security Audit Function
@@ -19,5 +29,6 @@ function logAction($conn, $action) {
     $stmt = $conn->prepare("INSERT INTO system_audit_logs (user_id, username, action_performed, ip_address) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("isss", $user_id, $username, $action, $ip);
     $stmt->execute();
+    $stmt->close();
 }
 ?>
