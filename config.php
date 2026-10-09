@@ -11,8 +11,9 @@ $port = (int)(getenv('DB_PORT') ?: 4000);
 
 $conn = mysqli_init();
 
-// Enable SSL for secure connection to TiDB Cloud
+// Enable SSL and point to system CA bundle or allow self-signed/cloud certs
 mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
+mysqli_options($conn, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, false);
 
 if (!mysqli_real_connect($conn, $host, $user, $pass, $db, $port, NULL, MYSQLI_CLIENT_SSL)) {
     die("Connection failed: " . mysqli_connect_error());
