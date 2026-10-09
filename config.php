@@ -3,18 +3,17 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$host = getenv('DB_HOST') ?: 'gateway01.eu-central-1.prod.aws.tidbcloud.com';
-$user = getenv('DB_USER') ?: '3WS1sv3ZSjr5BPb.root';
-$pass = getenv('DB_PASSWORD') ?: '';
-$db   = getenv('DB_NAME') ?: 'gas_agency';
+$host = getenv('DB_HOST');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASSWORD');
+$db   = getenv('DB_NAME');
 $port = (int)(getenv('DB_PORT') ?: 4000);
 
 $conn = mysqli_init();
 
-// Set SSL parameters with empty paths to use system defaults
+// Set SSL parameters for TiDB Cloud
 mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
 
-// Connect using explicit SSL client flag
 if (!mysqli_real_connect($conn, $host, $user, $pass, $db, $port, NULL, MYSQLI_CLIENT_SSL)) {
     die("Connection failed: " . mysqli_connect_error());
 }
