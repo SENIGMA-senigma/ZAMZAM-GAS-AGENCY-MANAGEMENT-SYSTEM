@@ -4,11 +4,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$host = getenv('DB_HOST') ?: 'gateway01.eu-central-1.prod.aws.tidbcloud.com';
-$user = getenv('DB_USER') ?: '3WS1sv3ZSjr5BPb.root';
-$pass = getenv('DB_PASSWORD') ?: '';
-$db   = getenv('DB_NAME') ?: 'gas_agency';
-$port = (int)(getenv('DB_PORT') ?: 4000);
+$host = getenv('DB_HOST') ?: 'gateway01.eu-central-1.prod.aws.tidbcloud.com'; //[cite: 20]
+$user = getenv('DB_USER') ?: '3WS1sv3ZSjr5BPb.root';                      //[cite: 20]
+$pass = getenv('DB_PASSWORD') ?: 'UDJV0OseOMQCBDLd';                      //[cite: 20]
+$db   = getenv('DB_NAME') ?: 'gas_agency';                               //[cite: 20]
+$port = (int)(getenv('DB_PORT') ?: 4000);                                //[cite: 20]
 
 // Initialize mysqli for secure cloud connection
 $conn = mysqli_init();
